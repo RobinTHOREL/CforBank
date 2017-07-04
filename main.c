@@ -1,5 +1,16 @@
 #include <stdio.h>
+struct client
+{
+    char nom[50];
+    char prenom[50];
+    char profession[50];
+    char numero[11];
+};
 
+typedef struct client Client;
+
+void ajouter_client(Client *c);
+void  modifier_client(Client rep[], int nb);
 int main() {
     printf("--- C for Bank\n");
     printf("--------\n");
