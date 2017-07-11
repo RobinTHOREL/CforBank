@@ -53,7 +53,6 @@ void header() {
 void ajouterClient() {
 
     char choix = 'a';
-    while (choix != 'r' || choix != 'R' || choix != 'q' || choix != 'Q') {
 
         Client client;
 
@@ -69,32 +68,25 @@ void ajouterClient() {
         printf("Saisir le numero de telephone (format: 0102030405) : \n");
         scanf("%s", client.numero);
 
-        //gen_random(client.id,10);
+        gen_random(client.id,10);
 
-        printf("Client : %s %s, prof : %s, tel : %s\n",  client.nom, client.prenom, client.profession, client.numero);
+        printf("\n\nClient : %s %s, prof : %s, tel : %s\n\n Prochaine etape?\nq. Main menu,\nr. Client menu",
+               client.nom, client.prenom, client.profession, client.numero);
 
-        printf("\n---\nProchaine etape?\n---\nr. Revenir au menu clientele,\nq. Revenir au menu principal \n");
+        printf("Choix : ", choix);
 
         scanf("%c", &choix);
 
-        switch (choix) {
-            case 'R':
-                gestionClient();
-                break;
-            case 'Q':
-                menu();
-                break;
-            case 'r':
-                gestionClient();
-                break;
-            case 'q':
-                menu();
-                break;
-            default:
-                break;
-        }
-    }
+
+    if(choix == 'r')
+            gestionClient();
+        else if(choix == 'q')
+            menu();
+
+
 }
+
+
 
 void  modifierClient(/*Client rep[], int nb*/) {
     header();
