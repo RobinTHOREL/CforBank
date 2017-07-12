@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <mem.h>
+#include <sqlite3.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 /*
  * General functions
@@ -24,18 +26,9 @@ struct compte
     int dureeMinimale;
 };
 
-void gen_random(char *s, const int len) {
-    int i = 0;
-    static const char alphanum[] =
-            "0123456789"
-                    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    "abcdefghijklmnopqrstuvwxyz";
+void setIDClient(char *s, char *nom, char *prenom) {
 
-    for ( ; i < len; ++i) {
-        s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
-    }
-
-    s[len] = 0;
+    strncat(s, nom, 3);
 }
 
 typedef struct client Client;
@@ -52,7 +45,7 @@ void header() {
 
 void ajouterClient() {
 
-    char choix = 'a';
+    int choix = 0;
 
         Client client;
 
@@ -68,19 +61,21 @@ void ajouterClient() {
         printf("Saisir le numero de telephone (format: 0102030405) : \n");
         scanf("%s", client.numero);
 
-        gen_random(client.id,10);
+        strncpy(client.id, client.prenom, 3);
+        strncpy(client.id, client.nom, 3);
 
-        printf("\n\nClient : %s %s, prof : %s, tel : %s\n\n Prochaine etape?\nq. Main menu,\nr. Client menu",
-               client.nom, client.prenom, client.profession, client.numero);
+        printf("\n\nLe client : %s %s %s, Profession : %s, Numero tel : %s a ete ajoute"
+                       "\n\nProchaine etape?\n---\n0. Client menu,\n1. Main menu\n",
+               client.id, client.nom, client.prenom, client.profession, client.numero);
 
-        printf("Choix : ", choix);
+        printf("Votre choix : \n");
 
-        scanf("%c", &choix);
+        scanf("%d", &choix);
 
 
-    if(choix == 'r')
+        if(choix == 0)
             gestionClient();
-        else if(choix == 'q')
+        else if(choix == 1)
             menu();
 
 
@@ -89,10 +84,14 @@ void ajouterClient() {
 
 
 void  modifierClient(/*Client rep[], int nb*/) {
+
+    Client client;
+
     header();
     printf("--- Modifier un client\n");
     printf("--------\n");
-    printf("Faites un choix : \n");
+    printf("Saisir l'identifiant du client : \n");
+    scanf("%s", client.id);
 }
 
 void supprimerClient() {
@@ -107,6 +106,8 @@ void  rechercherClient() {
     printf("--- Rechercher un client\n");
     printf("--------\n");
     printf("Faites un choix : \n");
+
+
 }
 
 void gestionClient() {
@@ -168,8 +169,6 @@ void ajouterCompte() {
     scanf("%s", client.profession);
     printf("Saisir le numero de telephone (format: 0102030405) : \n");
     scanf("%s", client.numero);
-
-    gen_random(client.id,10);
 
     printf("ID : %s Client : %s %s, prof : %s, tel : %s", client.nom, client.prenom, client.profession, client.numero);
 }
